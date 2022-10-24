@@ -12,14 +12,14 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 def load_and_preprocess():
+  import os
   data_dir = "data.csv"
   os.stat(data_dir)
   with open(data_dir, "r") as file:
     data_example = file.readlines()
-
     data_example = [line.replace("\n", "") for line in data_example]
     data_example = [line.split("\t")for line in data_example]
-    #line_by_line = data_example[0]
+    
   return data_example
 
 def pregunta_01():
