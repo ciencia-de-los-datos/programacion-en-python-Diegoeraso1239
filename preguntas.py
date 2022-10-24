@@ -357,13 +357,12 @@ def pregunta_11():
     data = load_and_preprocess()
     arr_vocals = ['a','b','c','d','e','f','g']
     sum = 0
-    sol = []
+    sol = {}
     for st in arr_vocals:
       for row in data:
         if row[3].find(st) != -1:
           sum = sum + int(row[1])
-      tupla = (st,sum)
-      sol.append(tupla)  
+      sol[st] = sum  
       sum = 0
       
     return sol
@@ -398,4 +397,4 @@ def pregunta_12():
 
       dicc[st] = sum
       sum = 0
-    return sol
+    return dicc
