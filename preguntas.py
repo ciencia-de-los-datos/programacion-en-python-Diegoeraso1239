@@ -12,7 +12,7 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 def load_and_preprocess():
-  data_dir = base_dir+"/data.csv"
+  data_dir = "data.csv"
   os.stat(data_dir)
   with open(data_dir, "r") as file:
     data_example = file.readlines()
