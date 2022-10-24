@@ -11,7 +11,25 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+class Contador(object):
 
+  def __init__(self, inicial=0):
+    self.numero = inicial
+
+  def siguiente(self):
+    self.numero += 1
+    return self.numero
+  
+def load_and_preprocess():
+  import os
+  data_dir = "data.csv"
+  os.stat(data_dir)
+  with open(data_dir, "r") as file:
+    data_example = file.readlines()
+    data_example = [line.replace("\n", "") for line in data_example]
+    data_example = [line.split("\t")for line in data_example]
+    
+  return data_example
 
 def pregunta_01():
     """
@@ -21,7 +39,10 @@ def pregunta_01():
     214
 
     """
-    return
+    data = load_and_preprocess()
+    targets = [int(row[1]) for row in data]
+    
+    return sum(targets)
 
 
 def pregunta_02():
@@ -39,7 +60,14 @@ def pregunta_02():
     ]
 
     """
-    return
+    data = load_and_preprocess()
+    sol = []
+    arra_vocals = ["A","B","C","D","E"]
+    for i in arra_vocals:
+      targets = [row for row in data if row[0] == i]
+      tupla = (i,len(targets))
+      sol.append(tupla)
+    return sol
 
 
 def pregunta_03():
@@ -55,9 +83,20 @@ def pregunta_03():
         ("D", 31),
         ("E", 67),
     ]
-
+  
     """
-    return
+    data = load_and_preprocess()
+    sol = []
+    counting = 0
+    arra_vocals = ["A","B","C","D","E"]
+    for i in arra_vocals:
+      for row in data:
+        if row[0]==i:
+           counting = counting + int(row[1])
+      tupla = (i, counting)
+      counting = 0
+      sol.append(tupla)
+    return sol
 
 
 def pregunta_04():
@@ -80,9 +119,19 @@ def pregunta_04():
         ("11", 2),
         ("12", 3),
     ]
-
+    
     """
-    return
+    data = load_and_preprocess()
+    sol = []
+    arra_months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+
+    targets = [[line.split("-") for line in row][2] for row in data]
+
+    for i in arra_months:
+      filter_per_month = [row for row in targets if row[1] == i]
+      tupla = (i,len(filter_per_month))
+      sol.append(tupla)
+    return sol
 
 
 def pregunta_05():
@@ -100,7 +149,18 @@ def pregunta_05():
     ]
 
     """
-    return
+    data = load_and_preprocess()
+    targets = []
+    sol = []
+    arra_vocals = ["A","B","C","D","E"]
+    for i in arra_vocals:
+      for row in data:
+        if row[0] == i:
+          targets.append(int(row[1]))
+      tupla = (i,max(targets),min(targets))
+      targets = []
+      sol.append(tupla)
+    return sol
 
 
 def pregunta_06():
@@ -125,7 +185,23 @@ def pregunta_06():
     ]
 
     """
-    return
+    data =  load_and_preprocess()
+    targets = [row[4] for row in data ]
+    start = ["aaa:","bbb:","ccc:","ddd:","eee:","fff:","ggg:","hhh:","iii:","jjj:"]
+    end = ','
+    extraction = 1
+    arr_extraction = []
+    sol = []
+
+    for st in start:
+      for i in targets:
+        if i.find(st) != -1:
+          extraction = i.split(st)[1].split(end)[0]
+        arr_extraction.append(int(extraction))
+      tupla = (st[:3],min(arr_extraction),max(arr_extraction))
+      sol.append(tupla)
+      arr_extraction = []
+    return sol
 
 
 def pregunta_07():
@@ -147,9 +223,16 @@ def pregunta_07():
         (8, ["E", "D", "E", "A", "B"]),
         (9, ["A", "B", "E", "A", "A", "C"]),
     ]
-
+    
     """
-    return
+    data = load_and_preprocess()
+    arr_numbers = ['0','1','2','3','4','5','6','7','8','9']
+    sol = []
+    for i in arr_numbers:
+      targets = [row[0] for row in data if row[1] == i]
+      tupla = (int(i),targets)
+      sol.append(tupla)
+    return sol
 
 
 def pregunta_08():
@@ -174,7 +257,18 @@ def pregunta_08():
     ]
 
     """
-    return
+    data = load_and_preprocess()
+    arr_number = ['0','1','2','3','4','5','6','7','8','9']
+    sol = []
+
+    for i in arr_number:
+      targets = [row[0] for row in data if row[1] == i]
+      not_repetition = []
+      [not_repetition.append(x) for x in targets if x not in not_repetition]
+      not_repetition.sort()
+      tupla = (int(i),not_repetition)
+      sol.append(tupla)
+    return sol
 
 
 def pregunta_09():
@@ -197,7 +291,20 @@ def pregunta_09():
     }
 
     """
-    return
+    data =  load_and_preprocess()
+    targets = [row[4] for row in data ]
+    start = ["aaa","bbb","ccc","ddd","eee","fff","ggg","hhh","iii","jjj"]
+    sol = {}
+    for st in start:
+      cuenta = Contador()
+      for i in targets:
+        if i.find(st) != -1:
+          cuenta.siguiente()
+      sol[st]=cuenta.numero
+
+      cuenta.numero = 0
+      
+    return sol
 
 
 def pregunta_10():
@@ -217,8 +324,16 @@ def pregunta_10():
     ]
 
 
-    """
-    return
+      """
+    data = load_and_preprocess()
+    arr_vocals = ['A','B','C','D','E']
+    sol = []
+    for row in data:
+      targets = row[3:5]
+      tupla = (row[0],len(targets[0].split(',')),len(targets[1].split(',')))
+      sol.append(tupla)
+      
+    return sol
 
 
 def pregunta_11():
@@ -239,7 +354,18 @@ def pregunta_11():
 
 
     """
-    return
+    data = load_and_preprocess()
+    arr_vocals = ['a','b','c','d','e','f','g']
+    sum = 0
+    sol = {}
+    for st in arr_vocals:
+      for row in data:
+        if row[3].find(st) != -1:
+          sum = sum + int(row[1])
+      sol[st] = sum  
+      sum = 0
+      
+    return sol
 
 
 def pregunta_12():
@@ -257,4 +383,18 @@ def pregunta_12():
     }
 
     """
-    return
+    data = load_and_preprocess()
+    arr_vocals = ['A','B','C','D','E']
+    sum, start, end = 0,':',','
+    dicc = {}
+    for st in arr_vocals:
+      for row in data:
+          if  row[0]==st:
+            targets = row[4].split(',')
+            for tar in targets:
+              extract = tar.split(start)[1].split(end)[0]
+              sum = sum + int(extract)
+
+      dicc[st] = sum
+      sum = 0
+    return dicc
